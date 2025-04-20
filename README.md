@@ -11,6 +11,9 @@ $ make run
 
 The `make run` command will build and run the application.
 
+The command `make dev` will run the application in development mode, which will
+use a constant port.
+
 
 Testing
 =======

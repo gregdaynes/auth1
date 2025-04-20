@@ -2,6 +2,10 @@
 run:
 	go run ./cmd/auth1
 
+.PHONY: dev
+dev:
+	go run ./cmd/auth1 -debug -addr 0.0.0.0:4000
+
 .PHONY: tidy
 tidy:
 	@echo 'Formatting .go files...'
