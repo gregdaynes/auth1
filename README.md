@@ -14,6 +14,9 @@ The `make run` command will build and run the application.
 The command `make dev` will run the application in development mode, which will
 use a constant port.
 
+[Root](http://0.0.0.0:4000/)
+[OpenAPI](http://0.0.0.0:4000/docs)
+
 
 Testing
 =======

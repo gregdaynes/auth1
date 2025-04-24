@@ -3,14 +3,14 @@ Application Base
 
 Setup the application core
 
-- Web server, Routing, Middleware
-- Cert support (probably provided by the host or certbot on the host)
-- CLI Flags for params/envars
-- Makefile for common operations
-- ReadMe
-- OpenAPI integration
-- Testing
-- SQLite Integration
+- [x] Web server, Routing, Middleware
+- [ ] Cert support (probably provided by the host or certbot on the host)
+- [x] CLI Flags for params/envars
+- [x] Makefile for common operations
+- [x] ReadMe
+- [x] OpenAPI integration
+- [ ] Testing
+- [ ] SQLite Integration
 
 ---
 
@@ -19,3 +19,4 @@ Setup the application core
 2025-04-19 21:08	Updated task
 2025-04-19 21:36	Updated task
 2025-04-19 21:36	Moved task from backlog to in-progress
+2025-04-23 19:22	Updated task

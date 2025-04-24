@@ -1,10 +1,21 @@
 package main
 
 import (
-	"net/http"
+	"context"
 )
 
-func (app *application) home(w http.ResponseWriter, r *http.Request) {
+// GreetingOutput represents the greeting operation response.
+type HomeOutput struct {
+	Body []byte
+}
+
+type HomeInput struct {
+}
+
+func (app *application) home(ctx context.Context, input *HomeInput) (*HomeOutput, error) {
 	app.logger.Info("home")
-	w.Write([]byte("hello world"))
+	resp := &HomeOutput{}
+	resp.Body = []byte("Hello world!")
+
+	return resp, nil
 }

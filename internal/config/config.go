@@ -6,9 +6,11 @@ import (
 )
 
 type Config struct {
-	Addr string
-	Host string
-	Port int
+	Name  string
+	Addr  string
+	Host  string
+	Port  int
+	Debug bool
 }
 
 func NewConfiguration(params Config) (config Config, err error) {
@@ -16,6 +18,7 @@ func NewConfiguration(params Config) (config Config, err error) {
 
 	addrParts := strings.Split(config.Addr, ":")
 	config.Host = addrParts[0]
+
 	port, err := strconv.Atoi(addrParts[1])
 	if err != nil {
 		return config, err

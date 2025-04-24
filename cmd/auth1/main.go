@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
-	"strconv"
-	"strings"
 
+	"github.com/danielgtaylor/huma/v2"
+	"github.com/danielgtaylor/huma/v2/adapters/humago"
 	"github.com/gregdaynes/auth1/internal/config"
 )
 
@@ -19,6 +19,7 @@ type application struct {
 }
 
 func main() {
+	name := flag.String("name", "Auth 1", "Application name")
 	addr := flag.String("addr", "127.0.0.1:3000", "HTTP network address")
 	debug := flag.Bool("debug", false, "Enable debug mode")
 	flag.Parse()
@@ -34,6 +35,7 @@ func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slogHandlerOptions))
 
 	cfg, err := config.NewConfiguration(config.Config{
+		Name:  *name,
 		Addr:  *addr,
 		Debug: *debug,
 	})
@@ -47,12 +49,10 @@ func main() {
 		config: &cfg,
 	}
 
-	router := app.routes()
+	router := http.NewServeMux()
+	api := humago.New(router, huma.DefaultConfig("My API", "1.0.0"))
+	app.routes(api)
 
-	addrParts := strings.Split(*addr, ":")
-	port, err := strconv.Atoi(addrParts[1])
-
-	app.config.Port = int(port)
-
+	logger.Info("starting server", "addr", *addr)
 	http.ListenAndServe(*addr, router)
 }
