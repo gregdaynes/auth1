@@ -1,12 +1,26 @@
 package config
 
-import "fmt"
+import (
+	"strconv"
+	"strings"
+)
 
 type Config struct {
+	Addr string
+	Host string
 	Port int
 }
 
-func NewConfiguration() (config Config, err error) {
-	fmt.Println("hello world")
+func NewConfiguration(params Config) (config Config, err error) {
+	config.Addr = params.Addr
+
+	addrParts := strings.Split(config.Addr, ":")
+	config.Host = addrParts[0]
+	port, err := strconv.Atoi(addrParts[1])
+	if err != nil {
+		return config, err
+	}
+	config.Port = port
+
 	return config, nil
 }

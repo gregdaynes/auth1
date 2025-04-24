@@ -2,13 +2,12 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"log/slog"
-	"net"
 	"net/http"
 	"os"
-	"time"
+	"strconv"
+	"strings"
 
 	"github.com/gregdaynes/auth1/internal/config"
 )
@@ -34,7 +33,10 @@ func main() {
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slogHandlerOptions))
 
-	cfg, err := config.NewConfiguration()
+	cfg, err := config.NewConfiguration(config.Config{
+		Addr:  *addr,
+		Debug: *debug,
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -45,25 +47,12 @@ func main() {
 		config: &cfg,
 	}
 
-	srv := &http.Server{
-		Addr:         *addr,
-		Handler:      app.routes(),
-		ErrorLog:     slog.NewLogLogger(logger.Handler(), slog.LevelError),
-		IdleTimeout:  time.Minute,
-		ReadTimeout:  time.Second * 5,
-		WriteTimeout: time.Second * 10,
-	}
+	router := app.routes()
 
-	// logger.Info("starting server", slog.String("addr", *addr))
-	l, err := net.Listen("tcp", *addr)
-	if err != nil {
-		log.Fatal(err)
-	}
+	addrParts := strings.Split(*addr, ":")
+	port, err := strconv.Atoi(addrParts[1])
 
-	host := fmt.Sprint(l.Addr().(*net.TCPAddr))
-	x := fmt.Sprintf("Service running on http://%v", host)
+	app.config.Port = int(port)
 
-	logger.Info(x, slog.String("addr", host))
-
-	log.Fatal(srv.Serve(l))
+	http.ListenAndServe(*addr, router)
 }
