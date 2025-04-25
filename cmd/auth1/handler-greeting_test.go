@@ -13,7 +13,7 @@ func TestGetGreeting(t *testing.T) {
 	app.routes(api)
 
 	resp := api.Get("/greeting/world")
-	if !strings.Contains(resp.Body.String(), "Hello, world!") {
+	if !strings.Contains(resp.Body.String(), "Hello, world! (1)") {
 		t.Fatalf("Unexpected response: %s", resp.Body.String())
 	}
 }

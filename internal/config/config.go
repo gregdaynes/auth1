@@ -11,6 +11,7 @@ type Config struct {
 	Host  string
 	Port  int
 	Debug bool
+	DbDsn string
 }
 
 func NewConfiguration(params Config) (config Config, err error) {
