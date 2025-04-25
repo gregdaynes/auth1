@@ -68,6 +68,19 @@ func main() {
 	api := humago.New(router, huma.DefaultConfig("My API", "1.0.0"))
 	app.routes(api)
 
-	logger.Info("starting server", "addr", *addr)
-	http.ListenAndServe(*addr, router)
+	if _, err := os.Stat("./cert.pem"); os.IsNotExist(err) {
+		logger.Info("starting server", "addr", "http://"+*addr)
+		err = http.ListenAndServe(*addr, router)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		return
+	}
+
+	logger.Info("starting server", "addr", "https://"+*addr)
+	err = http.ListenAndServeTLS(*addr, "./cert.pem", "./key.pem", router)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

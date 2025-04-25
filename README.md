@@ -18,6 +18,21 @@ use a constant port.
 [OpenAPI](http://0.0.0.0:4000/docs)
 
 
+## Generate TLS files for local dev
+
+_Path for the generate_cert.go module will be dependent on your install_
+
+```sh
+go run /usr/local/go/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost
+```
+
+or using asdf
+
+```sh
+go run ~/.asdf/installs/golang/1.24.0/go/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost
+```
+
+
 Testing
 =======
 
@@ -54,3 +69,4 @@ $ make tidy
 
 This will format the `.go` files, tidy the module dependencies, and vendor the
 dependencies.
+
